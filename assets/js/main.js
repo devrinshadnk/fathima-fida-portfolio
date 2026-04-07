@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
         updateFollower();
 
         // Hover effects on interactive elements
-        const hoverElements = document.querySelectorAll('a, button, .project-card, .service-card, .tool-tag');
+        const hoverElements = document.querySelectorAll('a, button, .project-card, .tool-tag');
         hoverElements.forEach(el => {
             el.addEventListener('mouseenter', () => cursorFollower.classList.add('hovering'));
             el.addEventListener('mouseleave', () => cursorFollower.classList.remove('hovering'));
@@ -207,22 +207,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        // Service cards
-        gsap.utils.toArray('.service-card').forEach((card, i) => {
-            gsap.from(card, {
-                scrollTrigger: {
-                    trigger: card,
-                    start: 'top 85%',
-                    toggleActions: 'play none none none'
-                },
-                opacity: 0,
-                y: 40,
-                duration: 0.6,
-                delay: i * 0.08,
-                ease: 'power3.out'
-            });
-        });
-
         // Process steps
         gsap.utils.toArray('.process-step').forEach((step, i) => {
             gsap.from(step, {
@@ -351,7 +335,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }, { threshold: 0.1 });
 
-        document.querySelectorAll('.section-header, .project-card, .service-card, .process-step, .testimonial-card, .about-content, .about-image, .contact-left, .contact-right').forEach(el => {
+        document.querySelectorAll('.section-header, .project-card, .process-step, .testimonial-card, .about-content, .about-image, .contact-left, .contact-right').forEach(el => {
             el.classList.add('reveal');
             observer.observe(el);
         });
@@ -383,19 +367,119 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ---------- Contact Form ----------
-    const contactForm = document.getElementById('contact-form');
-    if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
-            // If using Formspree, let it handle the submission
-            // If not configured, show a message
-            const action = this.getAttribute('action');
-            if (action.includes('YOUR_FORM_ID')) {
-                e.preventDefault();
-                alert('Please configure your form endpoint (Formspree, Netlify Forms, etc.) to enable contact form submissions.');
-            }
+    // ---------- Mobile-Specific Animations ----------
+    function initMobileAnimations() {
+        const isMobile = window.innerWidth <= 768;
+        if (!isMobile) return;
+
+        const mobileObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const el = entry.target;
+                    const animType = el.dataset.mobileAnim || 'fade-up';
+                    const delay = el.dataset.mobileDelay || 0;
+
+                    setTimeout(() => {
+                        el.classList.add('active');
+                    }, delay * 1000);
+
+                    mobileObserver.unobserve(el);
+                }
+            });
+        }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+        // Add mobile-specific animation classes
+        document.querySelectorAll('.experience-item').forEach((el, i) => {
+            el.classList.add('slide-in-left');
+            el.dataset.mobileDelay = i * 0.12;
+            mobileObserver.observe(el);
         });
+
+        document.querySelectorAll('.stat').forEach((el, i) => {
+            el.classList.add('scale-in');
+            el.dataset.mobileDelay = i * 0.1;
+            mobileObserver.observe(el);
+        });
+
+        document.querySelectorAll('.testimonial-card').forEach((el, i) => {
+            el.classList.add('fade-up-mobile');
+            el.dataset.mobileDelay = i * 0.1;
+            mobileObserver.observe(el);
+        });
+
+        document.querySelectorAll('.process-step').forEach((el, i) => {
+            el.classList.add('slide-in-left');
+            el.dataset.mobileDelay = i * 0.15;
+            mobileObserver.observe(el);
+        });
+
+        document.querySelectorAll('.contact-link').forEach((el, i) => {
+            el.classList.add('fade-up-mobile');
+            el.dataset.mobileDelay = i * 0.08;
+            mobileObserver.observe(el);
+        });
+
+        // Mobile project cards — staggered fade-in
+        const mobileProjects = document.querySelectorAll('.mobile-project');
+        if (mobileProjects.length) {
+            const projectObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const cards = entry.target.querySelectorAll('.mobile-project');
+                        cards.forEach((card, i) => {
+                            card.style.opacity = '0';
+                            card.style.transform = 'translateY(20px)';
+                            setTimeout(() => {
+                                card.style.transition = 'all 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
+                                card.style.opacity = '1';
+                                card.style.transform = 'translateY(0)';
+                            }, i * 80);
+                        });
+                        projectObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            const workMobile = document.querySelector('.work-mobile');
+            if (workMobile) {
+                projectObserver.observe(workMobile);
+            }
+        }
+
+        // Add stagger class to grids
+        const staggerContainers = document.querySelectorAll('.tools-grid, .about-stats');
+        staggerContainers.forEach(container => {
+            container.classList.add('mobile-stagger');
+            const staggerObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        staggerObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.2 });
+            staggerObserver.observe(container);
+        });
+
+        // Horizontal scroll snap indicator for work section
+        const workGrid = document.querySelector('.work-grid');
+        if (workGrid) {
+            let isDown = false;
+            let startX;
+            let scrollLeft;
+
+            workGrid.addEventListener('touchstart', () => {
+                workGrid.style.scrollBehavior = 'auto';
+            });
+
+            workGrid.addEventListener('touchend', () => {
+                workGrid.style.scrollBehavior = 'smooth';
+            });
+        }
     }
+
+    // Call mobile animations after main init
+    setTimeout(initMobileAnimations, 100);
 
     // ---------- Initialize Lucide Icons ----------
     if (typeof lucide !== 'undefined') {
