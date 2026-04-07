@@ -552,7 +552,7 @@ input, textarea, select {
 
 .hero-cta {
     display: flex;
-    gap: 1rem;
+    gap: 1.5rem;
     flex-wrap: wrap;
     opacity: 0;
     transform: translateY(20px);
@@ -2002,6 +2002,16 @@ input, textarea, select {
     .testimonial-text {
         font-size: 0.9375rem;
         margin-bottom: 1.5rem;
+    }
+
+    /* Fix GSAP invisible elements on mobile — force visibility */
+    .process-step,
+    .testimonial-card,
+    .section-header,
+    .contact-left,
+    .contact-right {
+        opacity: 1 !important;
+        transform: none !important;
     }
 
     /* Contact — single column on mobile */
