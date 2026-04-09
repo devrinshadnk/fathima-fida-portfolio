@@ -1327,81 +1327,6 @@ input, textarea, select {
     line-height: 1.7;
 }
 
-/* ---------- Testimonials ---------- */
-.testimonials {
-    padding: var(--section-padding) 0;
-    background: var(--bg-secondary);
-}
-
-.testimonials-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5rem;
-}
-
-.testimonial-card {
-    padding: 2.5rem 2rem;
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius-lg);
-    transition: all var(--transition-medium);
-}
-
-.testimonial-card:hover {
-    border-color: var(--border-hover);
-    transform: translateY(-4px);
-}
-
-.testimonial-quote {
-    font-family: var(--font-display);
-    font-size: 4rem;
-    color: var(--accent);
-    line-height: 1;
-    margin-bottom: 0.5rem;
-    opacity: 0.5;
-}
-
-.testimonial-text {
-    font-size: 1rem;
-    color: var(--text-secondary);
-    line-height: 1.8;
-    margin-bottom: 2rem;
-}
-
-.testimonial-author {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
-.author-avatar {
-    width: 44px;
-    height: 44px;
-    border-radius: 50%;
-    background: var(--bg-tertiary);
-    border: 1px solid var(--border);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.75rem;
-    font-weight: 600;
-    color: var(--accent);
-}
-
-.author-info {
-    display: flex;
-    flex-direction: column;
-}
-
-.author-info strong {
-    font-size: 0.9375rem;
-}
-
-.author-info span {
-    font-size: 0.8125rem;
-    color: var(--text-tertiary);
-}
-
 /* ---------- Contact Section (Clean Cards) ---------- */
 .contact {
     padding: var(--section-padding) 0;
@@ -1643,10 +1568,6 @@ input, textarea, select {
 
     .process-timeline::before {
         display: none;
-    }
-
-    .testimonials-grid {
-        grid-template-columns: 1fr;
     }
 
     .contact-wrapper {
@@ -1985,28 +1906,8 @@ input, textarea, select {
         font-size: 0.8125rem;
     }
 
-    /* Testimonials — stacked with swipe feel */
-    .testimonials-grid {
-        grid-template-columns: 1fr;
-        gap: 1rem;
-    }
-
-    .testimonial-card {
-        padding: 1.75rem 1.5rem;
-    }
-
-    .testimonial-quote {
-        font-size: 3rem;
-    }
-
-    .testimonial-text {
-        font-size: 0.9375rem;
-        margin-bottom: 1.5rem;
-    }
-
     /* Fix GSAP invisible elements on mobile — force visibility */
     .process-step,
-    .testimonial-card,
     .section-header,
     .contact-left,
     .contact-right {
@@ -2116,10 +2017,6 @@ input, textarea, select {
 /* ---------- Mobile Animations ---------- */
 @media (max-width: 768px) {
     /* Touch-friendly: use active states instead of hover */
-    .testimonial-card:hover {
-        transform: none;
-    }
-
     .tool-tag:active {
         transform: scale(0.95);
         border-color: var(--accent);

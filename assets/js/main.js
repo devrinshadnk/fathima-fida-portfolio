@@ -223,22 +223,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
 
-        // Testimonial cards
-        gsap.utils.toArray('.testimonial-card').forEach((card, i) => {
-            gsap.from(card, {
-                scrollTrigger: {
-                    trigger: card,
-                    start: 'top 85%',
-                    toggleActions: 'play none none none'
-                },
-                opacity: 0,
-                y: 40,
-                duration: 0.6,
-                delay: i * 0.1,
-                ease: 'power3.out'
-            });
-        });
-
         // Contact section
         gsap.from('.contact-left', {
             scrollTrigger: {
@@ -335,7 +319,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }, { threshold: 0.1 });
 
-        document.querySelectorAll('.section-header, .project-card, .process-step, .testimonial-card, .about-content, .about-image, .contact-left, .contact-right').forEach(el => {
+        document.querySelectorAll('.section-header, .project-card, .process-step, .about-content, .about-image, .contact-left, .contact-right').forEach(el => {
             el.classList.add('reveal');
             observer.observe(el);
         });
@@ -397,12 +381,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         document.querySelectorAll('.stat').forEach((el, i) => {
             el.classList.add('scale-in');
-            el.dataset.mobileDelay = i * 0.1;
-            mobileObserver.observe(el);
-        });
-
-        document.querySelectorAll('.testimonial-card').forEach((el, i) => {
-            el.classList.add('fade-up-mobile');
             el.dataset.mobileDelay = i * 0.1;
             mobileObserver.observe(el);
         });
